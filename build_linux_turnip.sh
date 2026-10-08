@@ -25,7 +25,7 @@ for variant in "${variants[@]}"; do
   git -C "$src" checkout --detach "$commit"
   (
     cd "$src"
-    for script in fix_a8xx_dev_info apply_a8xx_gpus apply_a7xx_gen1_quirks apply_a7xx_gen2_ubwc_hint; do
+    for script in fix_a8xx_dev_info apply_a8xx_gpus apply_a7xx_gen1_quirks apply_a7xx_gen2_ubwc_hint add_a845; do
       python3 "$here/patches/$script.py"
     done
     if [[ "$variant" == b ]]; then

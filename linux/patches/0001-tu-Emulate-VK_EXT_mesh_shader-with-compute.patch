@@ -221,14 +221,11 @@ index ef00cecf..35b054e8 100644
  
     /* We precompile static state and count it as dynamic, so we have to
      * manually clear bitset that tells which dynamic state is set, in order to
-@@ -6313,6 +6340,7 @@ tu_render_pass_state_merge(struct tu_render_pass_state *dst,
- {
+@@ -6344,3 +6344,4 @@ tu_render_pass_state_merge
     dst->xfb_used |= src->xfb_used;
     dst->has_tess |= src->has_tess;
 +   dst->has_mesh |= src->has_mesh;
     dst->has_prim_generated_query_in_rp |= src->has_prim_generated_query_in_rp;
-    dst->has_vtx_stats_query_in_rp |= src->has_vtx_stats_query_in_rp;
-    dst->has_zpass_done_sample_count_write_in_rp |= src->has_zpass_done_sample_count_write_in_rp;
 @@ -7787,6 +7815,15 @@ tu6_emit_per_stage_push_consts(struct tu_cs *cs,
     }
  }
@@ -2457,22 +2454,12 @@ index 4fb42f2d..8ed25ac8 100644
     }
  
     progress |= nir_shader_instructions_pass(shader,
-@@ -3355,6 +3413,9 @@ tu_shader_serialize(struct vk_pipeline_cache_object *object,
+@@ -3439,6 +3439,9 @@ tu_shader_serialize_deserialize
     case MESA_SHADER_FRAGMENT:
-       blob_write_bytes(blob, &shader->fs, sizeof(shader->fs));
+       io.bytes(&shader->fs, sizeof(shader->fs));
        break;
 +   case MESA_SHADER_COMPUTE:
-+      blob_write_bytes(blob, &shader->mesh, sizeof(shader->mesh));
-+      break;
-    default:
-       break;
-    }
-@@ -3396,6 +3457,9 @@ tu_shader_deserialize(struct vk_pipeline_cache *cache,
-    case MESA_SHADER_FRAGMENT:
-       blob_copy_bytes(blob, &shader->fs, sizeof(shader->fs));
-       break;
-+   case MESA_SHADER_COMPUTE:
-+      blob_copy_bytes(blob, &shader->mesh, sizeof(shader->mesh));
++      io.bytes(&shader->mesh, sizeof(shader->mesh));
 +      break;
     default:
        break;

@@ -147,7 +147,6 @@ add_gpus([
         cs_shared_mem_size = 32 * 1024,
         wave_granularity = 2,
         fibers_per_sp = 128 * 2 * 16,
-        magic_regs = dict(),
         raw_magic_regs = a8xx_base_raw_magic_regs,
     ))
 """
@@ -160,7 +159,6 @@ else:
         print("  WARNING: cannot locate A810 anchor for A825 insertion", file=sys.stderr)
     else:
         A810_END_ANCHOR = (
-            "        magic_regs = dict(),\n"
             "        raw_magic_regs = a8xx_base_raw_magic_regs,\n"
             "    ))\n"
         )
